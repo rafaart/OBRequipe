@@ -2,6 +2,7 @@ inicio
 enquanto(verdadeiro) farei{
 
 	mover(0, 900)
+	mover(0,900)
 
 }
 
