@@ -1,0 +1,203 @@
+texto textoleituraT = ""
+
+
+tarefa lerSensor {
+  textoleituraT = concatenar5(cor(5),cor(4),cor(3),cor(2),cor(1))
+  escrever(1,textoleituraT)
+  se (temalgo(3,1,15))entao {
+    textoleituraT = "CAIXA"
+  }
+}
+
+tarefa bolas {
+  se (temalgo(3,1,15))entao {
+    textoleituraT = "BOLAS"
+  }
+}
+
+tarefa emFrente {
+  mover(50,50)
+}
+
+tarefa praTras {
+  mover(negativo(100),negativo(100))
+}
+
+tarefa curvaAbertaDireita {
+  mover(negativo(280),300)
+}
+
+tarefa curvaAbertaEsquerda {
+  mover(300,negativo(280))
+}
+
+tarefa curva90EX {
+  frenterotacao(200,15)
+  farei {
+    lerSensor()
+    mover(900,negativo(900))
+
+  } enquanto(textoleituraT == "BRANCO BRANCO BRANCO BRANCO BRANCO")
+
+  trasrotacao(200,10)
+}
+
+tarefa curva90E {
+  frenterotacao(200,15)
+  rotacionar(300,negativo(90))
+  trasrotacao(200,7)
+}
+
+tarefa curvaFechadaDireita {
+  mover(negativo(900),900)
+}
+
+tarefa curvaFechadaEsquerda {
+  mover(700,negativo(700))
+}
+
+tarefa curva90D {
+  frenterotacao(200,15)
+  rotacionar(300,90)
+  trasrotacao(200,7)
+}
+
+tarefa gap {
+  mover(luz(2),luz(4))
+}
+
+tarefa curva90DX {
+  frenterotacao(200,15)
+  farei {
+    lerSensor()
+    mover(negativo(900),900)
+
+  } enquanto(textoleituraT == "BRANCO BRANCO BRANCO BRANCO BRANCO")
+
+  trasrotacao(200,10)
+}
+
+tarefa obstaculo {
+  rotacionar(300,negativo(90))
+  frenterotacao(200,18)
+  rotacionar(300,90)
+  frenterotacao(200,38)
+  rotacionar(300,45)
+  enquanto (textoleituraT == "BRANCO BRANCO BRANCO BRANCO BRANCO") farei{
+    mover(100,100)
+  }
+
+  frenterotacao(200,25)
+  rotacionar(300,negativo(45))
+  trasrotacao(200,10)
+}
+
+
+inicio
+  ajustarcor(35)
+  enquanto (verdadeiro) farei{
+    lerSensor()
+    teste (textoleituraT){
+       caso "BRANCO BRANCO BRANCO PRETO BRANCO":
+         curvaAbertaDireita()
+
+      caso "BRANCO BRANCO BRANCO BRANCO PRETO":
+         curvaFechadaDireita()
+
+      caso "BRANCO BRANCO BRANCO PRETO PRETO":
+         curvaFechadaDireita()
+
+      caso "BRANCO BRANCO PRETO PRETO PRETO":
+         curva90DX()
+
+      caso "BRANCO PRETO PRETO PRETO PRETO":
+         curvaAbertaDireita()
+
+      caso "BRANCO BRANCO PRETO BRANCO BRANCO":
+         emFrente()
+
+      caso "BRANCO PRETO BRANCO BRANCO BRANCO":
+         curvaAbertaEsquerda()
+
+      caso "PRETO BRANCO BRANCO BRANCO BRANCO":
+         curvaFechadaEsquerda()
+
+      caso "PRETO PRETO BRANCO BRANCO BRANCO":
+         curvaFechadaEsquerda()
+
+      caso "PRETO PRETO PRETO BRANCO BRANCO":
+         curva90EX()
+
+      caso "PRETO PRETO PRETO PRETO BRANCO":
+         curvaAbertaEsquerda()
+
+      caso "BRANCO PRETO PRETO PRETO BRANCO":
+         gap()
+
+      caso "BRANCO BRANCO BRANCO BRANCO BRANCO":
+         escrever(2,concatenar3(virartexto(luz(4)),"---------",virartexto(luz(2))))
+        gap()
+
+      caso "PRETO PRETO PRETO PRETO PRETO":
+         emFrente()
+
+      caso "BRANCO BRANCO PRETO VERDE BRANCO":
+         curva90D()
+
+      caso "BRANCO BRANCO BRANCO PRETO VERDE":
+         curva90D()
+
+      caso "BRANCO BRANCO VERDE VERDE BRANCO":
+         curva90D()
+
+      caso "BRANCO BRANCO BRANCO VERDE VERDE":
+         curva90D()
+
+      caso "BRANCO VERDE PRETO BRANCO BRANCO":
+         curva90E()
+
+      caso "VERDE PRETO BRANCO BRANCO BRANCO":
+         curva90E()
+
+      caso "BRANCO VERDE VERDE BRANCO BRANCO":
+         curva90E()
+
+      caso "VERDE VERDE BRANCO BRANCO BRANCO":
+         curva90E()
+
+      caso "CAIXA":
+         obstaculo()
+
+      caso "BRANCO BRANCO BRANCO BRANCO AMARELO":
+         curvaFechadaEsquerda()
+
+      caso "AMARELO BRANCO BRANCO BRANCO BRANCO":
+         curvaFechadaDireita()
+
+      caso "BRANCO BRANCO AMARELO BRANCO BRANCO":
+         emFrente()
+
+      caso "BOLAS":
+         escrever(3,"BOLAS")
+        baixar(2)
+        abrir(2)
+        emFrente()
+        fechar(2)
+        levantar(2)
+        se (cor(3) == "PRETO")entao {
+          baixar(2)
+          abrir(2)
+        }
+        caso "BRANCO":
+          emFrente()
+
+
+
+      outros:
+         acenderled("VERMELHO")
+        gap()
+
+    }
+  }
+
+fim
